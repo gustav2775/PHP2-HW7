@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 use app\model\repositories\FeedbackRepository;
-use app\model\enitities\Feedback;
+use app\model\entities\Feedback;
 
 
 class FeedbackController extends Controller

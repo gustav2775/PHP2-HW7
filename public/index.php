@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once "../config/config.php";
+require_once '../vendor/autoload.php';
+
 include_once "../engine/Autoload.php";
 
 use app\engine\{Autoload,DefaultRender, TwigRender };
@@ -8,7 +10,7 @@ use app\engine\Request;
 use app\controllers\{AuthController};
 try {
     
-spl_autoload_register([new Autoload(), 'loadClass']);
+// spl_autoload_register([new Autoload(), 'loadClass']);
 
 $request= new Request ();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\model\enitities;
+namespace app\model\entities;
 
 use app\model\Model;
 

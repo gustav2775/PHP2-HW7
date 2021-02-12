@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\model\repositories\GalleryRepository;
-use app\model\enitities\Gallery;
+use app\model\entities\Gallery;
 use app\engine\Request;
 
 class GalleryController extends Controller

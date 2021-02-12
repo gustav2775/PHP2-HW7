@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\model\enitities\{Catalog, Basket, Feedback};
+use app\model\entities\{Catalog, Basket, Feedback};
 use app\model\repositories\{CatalogRepository, FeedbackRepository, BasketRepository};
 use app\engine\Request;
 
@@ -10,13 +10,8 @@ class CatalogController extends Controller
 {
     public function actionCatalog()
     {
-        if ($_GET['id']) {
-            $good = (new BasketRepository)->getOneProd($_GET['id']);
-            $good->basketUp();
-        } else {
-            $page = (new Request())->getParams()['page'] ?: 10;
-            $catalog = (new CatalogRepository)->getAllLimit($page);
-        }
+        $page = (new Request())->getParams()['page'] ?: 10;
+        $catalog = (new CatalogRepository)->getAllLimit($page);
 
         echo $this->renderLayouts("catalog", [
             "catalog" => $catalog,

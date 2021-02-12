@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\model\repositories\{BasketRepository, CatalogRepository, OrdersRepository, UsersRepository};
-use app\model\enitities\{Orders, Basket};
+use app\model\entities\{Orders, Basket};
 use app\engine\Request;
 use app\engine\Session;
 

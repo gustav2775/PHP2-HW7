@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\model\repositories\BasketRepository;
-use app\model\enitities\Basket;
+use app\model\entities\Basket;
 use app\engine\{Request};
 
 class BasketController extends Controller

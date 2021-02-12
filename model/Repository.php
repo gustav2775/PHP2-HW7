@@ -65,6 +65,7 @@ abstract class Repository
         Db::getInstance()->execute($sql, $params);
 
         $model->id = Db::getInstance()->getLastId();
+        return $model;
     }
 
     public function update(Model $model)
@@ -83,6 +84,7 @@ abstract class Repository
         $columns = implode(',', $columns);
         $sql = "UPDATE `$tableName` SET $columns WHERE `id`=:id";
         Db::getInstance()->execute($sql, $params);
+        return $model;
     }
 
 
