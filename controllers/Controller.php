@@ -10,12 +10,10 @@ class Controller
 {
     private $defaultLayouts = "index";
     protected $render;
-    protected $login;
 
-    public function __construct(IRender $render,ILogin $login)
+    public function __construct(IRender $render)
     {
         $this->render = $render;
-        $this->login = $login;
     }
 
     public function renderLayouts($template, $params = [])
