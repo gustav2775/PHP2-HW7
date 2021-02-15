@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Фев 10 2021 г., 18:21
+-- Время создания: Фев 15 2021 г., 23:19
 -- Версия сервера: 8.0.19
 -- Версия PHP: 7.4.14
 
@@ -39,13 +39,8 @@ CREATE TABLE `basket` (
 --
 
 INSERT INTO `basket` (`id_product`, `id_session`, `quantity`, `id`) VALUES
-(1, '1', 2, 53),
-(2, '1', 1, 54),
-(5, '2', 5, 55),
-(5, 'iufgolpd2a7t3oo30njdhnic59l0c275', 1, 114),
-(7, 'iufgolpd2a7t3oo30njdhnic59l0c275', 1, 115),
-(7, 'iufgolpd2a7t3oo30njdhnic59l0c275', 1, 116),
-(2, 'iufgolpd2a7t3oo30njdhnic59l0c275', 1, 117);
+(2, 'ped82u7mpg7mhahv045p3956fbka54ch', 13, 152),
+(5, 'ped82u7mpg7mhahv045p3956fbka54ch', 1, 177);
 
 -- --------------------------------------------------------
 
@@ -80,11 +75,11 @@ INSERT INTO `catalog` (`id`, `name_product`, `price`, `img_prod`, `veiws`, `desc
 (45, 'Катофель', 20, NULL, 0, 'красный'),
 (51, 'Огурец', 40, NULL, 0, 'Тепличный'),
 (56, 'Арбуз', 40, NULL, 0, 'Астраханский'),
-(57, 'миндаль', 100, NULL, 0, 'Орех'),
+(57, 'мороженое ', 40, NULL, 0, '48 копеек'),
 (58, 'Памела', 124, NULL, 0, 'врпилцу'),
 (59, 'Мандарин', 60, NULL, 0, 'Азербайджан'),
 (60, 'Салат', 70, NULL, 0, 'Айсберг'),
-(61, 'Малина', 250, NULL, 0, 'Астраханский');
+(62, 'Миндаль', 250, NULL, 0, 'Центральная');
 
 -- --------------------------------------------------------
 
@@ -145,29 +140,22 @@ INSERT INTO `gallery` (`id`, `name`, `size`, `views`) VALUES
 
 CREATE TABLE `orders` (
   `id` int NOT NULL,
-  `id_order` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `iduser` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `userName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_user` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `products` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `adress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `products` json NOT NULL,
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sumOrder` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `sum_order` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `id_order`, `iduser`, `userName`, `number`, `email`, `city`, `products`, `status`, `sumOrder`) VALUES
-(1, '5fff633597dab', '4', 'Вася', '435346', '2345@mail.ru', 'Лес', '[{\"idorder\":\"5fff633597dab\",\"iduser\":\"4\",\"idprod\":\"2\",\"quantity\":\"1\",\"id\":\"2\",\"name\":\"Apple\",\"price\":\"1\",\"imgProd\":\"2.jpg\",\"veiws\":\"36\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"5fff633597dab\",\"iduser\":\"4\",\"idprod\":\"5\",\"quantity\":\"6\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ отправлен', '43 '),
-(2, '600583bb5a6f3', '1', 'NIKOLAI DAVYDOV', '578940', 'range91111@gmail.com', 'ИВАНОВО', '[{\"idorder\":\"600583bb5a6f3\",\"iduser\":\"1\",\"idprod\":\"1\",\"quantity\":\"2\",\"id\":\"1\",\"name\":\"Pizza\",\"price\":\"50\",\"imgProd\":\"1.jpg\",\"veiws\":\"186\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"600583bb5a6f3\",\"iduser\":\"1\",\"idprod\":\"5\",\"quantity\":\"2\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ выполнен', '114 '),
-(3, '60058b9b92e7d', '1', 'NIKOLAI DAVYDOV', '578940', 'range91111@gmail.com', 'ИВАНОВО', '[{\"idorder\":\"60058b9b92e7d\",\"iduser\":\"1\",\"idprod\":\"5\",\"quantity\":\"1\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"60058b9b92e7d\",\"iduser\":\"1\",\"idprod\":\"1\",\"quantity\":\"3\",\"id\":\"1\",\"name\":\"Pizza\",\"price\":\"50\",\"imgProd\":\"1.jpg\",\"veiws\":\"186\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ отправлен на обратоку', '157 '),
-(4, '600590b78ad1f', '27063018560058fe87a12b9.59547360', 'Петя', '578940', 'setg@jhfg.ru', 'Ljhjuf', '[{\"idorder\":\"600590b78ad1f\",\"iduser\":\"27063018560058fe87a12b9.59547360\",\"idprod\":\"5\",\"quantity\":\"1\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"600590b78ad1f\",\"iduser\":\"27063018560058fe87a12b9.59547360\",\"idprod\":\"2\",\"quantity\":\"1\",\"id\":\"2\",\"name\":\"Apple\",\"price\":\"1\",\"imgProd\":\"2.jpg\",\"veiws\":\"36\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ отправлен на обратоку', '8 '),
-(5, '600593a6020f0', '1478104380600592b42508f7.57231874', 'Катя', '578940', '325@edtg.ru', 'Дом', '[{\"idorder\":\"600593a6020f0\",\"iduser\":\"1478104380600592b42508f7.57231874\",\"idprod\":\"1\",\"quantity\":\"1\",\"id\":\"1\",\"name\":\"Pizza\",\"price\":\"50\",\"imgProd\":\"1.jpg\",\"veiws\":\"186\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"600593a6020f0\",\"iduser\":\"1478104380600592b42508f7.57231874\",\"idprod\":\"5\",\"quantity\":\"1\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ отправлен на обратоку', '57 '),
-(6, '60059a1d24b1e', '501254841600599a52ffe40.30049324', '43546', '578940', 'range91111@gmail.com', 'ИВАНОВО', '[{\"idorder\":\"60059a1d24b1e\",\"iduser\":\"501254841600599a52ffe40.30049324\",\"idprod\":\"5\",\"quantity\":\"1\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', 'Заказ отправлен на обратоку', '7 '),
-(7, '6005a7665dfea', '1', NULL, NULL, NULL, NULL, '[{\"idorder\":\"6005a7665dfea\",\"iduser\":\"1\",\"idprod\":\"1\",\"quantity\":\"5\",\"id\":\"1\",\"name\":\"Pizza\",\"price\":\"50\",\"imgProd\":\"1.jpg\",\"veiws\":\"187\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"},{\"idorder\":\"6005a7665dfea\",\"iduser\":\"1\",\"idprod\":\"5\",\"quantity\":\"20\",\"id\":\"5\",\"name\":\"Tea\",\"price\":\"7\",\"imgProd\":\"5.jpg\",\"veiws\":\"85\",\"description\":\"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.\"}]', NULL, '390 ');
+INSERT INTO `orders` (`id`, `id_user`, `user_name`, `number`, `email`, `adress`, `products`, `status`, `sum_order`) VALUES
+(6, '1', '123', '578940', 'range91111@gmail.com', 'Шубиных', '[{\"id\": \"139\", \"price\": \"30\", \"img_prod\": \"\", \"quantity\": \"1\", \"id_product\": \"7\", \"id_session\": \"ped82u7mpg7mhahv045p3956fbka54ch\", \"name_product\": \"Грибы\"}, {\"id\": \"140\", \"price\": \"50\", \"img_prod\": \"12.img\", \"quantity\": \"1\", \"id_product\": \"13\", \"id_session\": \"ped82u7mpg7mhahv045p3956fbka54ch\", \"name_product\": \"Молоко\"}, {\"id\": \"141\", \"price\": \"45\", \"img_prod\": null, \"quantity\": \"1\", \"id_product\": \"31\", \"id_session\": \"ped82u7mpg7mhahv045p3956fbka54ch\", \"name_product\": \"Торт\"}]', 'отменен', '125');
 
 -- --------------------------------------------------------
 
@@ -223,7 +211,7 @@ ALTER TABLE `gallery`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_order` (`id_order`);
+  ADD UNIQUE KEY `id_order` (`id`);
 
 --
 -- Индексы таблицы `users`
@@ -239,13 +227,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT для таблицы `catalog`
 --
 ALTER TABLE `catalog`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
@@ -263,7 +251,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
