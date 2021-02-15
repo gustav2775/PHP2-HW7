@@ -31,20 +31,28 @@ class CatalogController extends Controller
         ]);
     }
 
+    // public function actionInsert()
+    // {
+    //     $params = (new Request())->getParams();
+    //     $catalog = new Catalog($params['name_product'],$params['price'],$params['description']);
+    //     (new CatalogRepository)->insert($catalog);
+    //     header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // }
+
     public function actionSave()
     {
         $paramsRequest = (new Request())->getParams();
         $id = $paramsRequest['id'];
-        // TODO Проверить update
+
         if (isset($id)) {
-            $catalog = (new CatalogRepository)->getOne($id);
+            $catalog = new Catalog();
             $paramsKey = array_keys($paramsRequest);
             foreach ($paramsKey as $key) {
                 $catalog->$key = $paramsRequest[$key];
             }
             (new CatalogRepository)->update($catalog);
         } else {
-            $catalog = new Catalog($paramsRequest['name'], $paramsRequest['price'], $paramsRequest['description']);
+            $catalog = new Catalog($paramsRequest['name_product'], $paramsRequest['price'], $paramsRequest['description']);
             (new CatalogRepository)->insert($catalog);
         }
         header('Location: ' . $_SERVER['HTTP_REFERER']);

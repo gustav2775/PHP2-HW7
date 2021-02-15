@@ -5,7 +5,7 @@
   <?php if ($_SESSION['id'] == 1) : ?>
     <p>Создать новый товар</p>
     <form class=newProduct action="/catalog/save" method="post">
-      <input class="newProductInput" type="text" name='name' placeholder="Название товара">
+      <input class="newProductInput" type="text" name='name_product' placeholder="Название товара">
       <input class="newProductInput" type="text" name='price' placeholder="Цена">
       <input class="newProductInput" type="text" name='description' placeholder="Описание">
       <input type="file" name="productImg" id="">
@@ -18,13 +18,13 @@
       <div class="item">
         <a href="/catalog/product/?id=<?= $item['id'] ?>">
           <div class="imgitem">
-            <img src="img/imgCatalog/<?= $item['img_prod'] ?>" style="width: 250px;" alt="">
+            <img src="/img/imgCatalog/<?= $item['img_prod'] ?>" style="width: 250px;" alt="">
           </div>
           <p class="catalogItem"><?= $item['name_product'] ?></p>
           <p> Price : <span><?= $item['price'] ?> USD</span></p>
         </a>
         <?php if ($_SESSION['id'] == 1) : ?>
-          <a href="/catalog/delete/?id=<?= $item['id'] ?>">[x]</a>
+          <a href="/catalog/delete/?id=<?= $item['id'] ?>">[x]</a> 
         <?php endif ?>
         <button class="buy" data-id= "<?= $item['id'] ?>" data-method ='catalog' data-action= 'buy'>Купить </button>
       </div>

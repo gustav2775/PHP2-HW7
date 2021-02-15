@@ -10,7 +10,7 @@ use app\engine\{Autoload,DefaultRender, TwigRender };
 use app\engine\Request;
 //use app\controllers\{AuthController};
 // spl_autoload_register([new Autoload(), 'loadClass']);
-try {  
+ 
 $request= new Request ();
 
 $controllerName = $request->getControllerName() ?: "index";
@@ -29,7 +29,4 @@ if (class_exists($controllerClass)) {
 } else {
     die("Такой страницы не существует");
 }
-} 
-catch (\Throwable $th) {
-   var_dump($th);
-}
+

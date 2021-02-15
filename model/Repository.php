@@ -4,6 +4,7 @@
 namespace app\model;
 
 use app\engine\Db;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 abstract class Repository
 {
@@ -52,7 +53,7 @@ abstract class Repository
         $tableName = $this->getTableName();
 
         foreach ($model->prop as $key => $value) {
-            if (!is_null($value)) {
+            if ($value) {
                 $columns[] = $key;
                 $values[] = ":" . $key;
                 $params[":" . $key] =  $model->$key;
@@ -72,12 +73,12 @@ abstract class Repository
     {
         $tableName = $this->getTableName();
 
-        $params[':id'] = $model['id'];
+        $params[':id'] = $model->id;
         foreach ($model->prop as $key => $value) {
             if ($value) {
                 if ($key != 'id') {
                     $columns[] = $key . "  = :" . $key;
-                    $params[":$key"] =  $model[$key];
+                    $params[":$key"] =  $model->$key;
                 }
             }
         }

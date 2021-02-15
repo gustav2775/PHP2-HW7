@@ -5,15 +5,23 @@ use PHPUnit\Framework\TestCase;
 
 class ShopTest extends TestCase {
 
-    public function testAdd() {
-        $x = 1;
-        $y = 2;
-        $this->assertEquals(3, $x + $y);
+     /** 
+     * @dataProvider providerDate
+     */
+    public function testAdd($a,$b,$c) {
+        $this->assertEquals($c, $a - $b);
     }
-    public function testSub() {
-        $x = 3;
-        $y = 2;
-        $this->assertEquals(1, $x - $y);
+     /** 
+     * @dataProvider providerDate
+     */
+    public function testSub($a,$b,$c) {
+        $this->assertArrayNotHasKey($a+$b,[]);
     }
-
+    public function providerDate()
+    {
+        return array(
+            array(8,5,3),
+            array(10,2,8)
+        );
+    }
 }
