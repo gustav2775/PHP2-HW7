@@ -4,25 +4,17 @@ namespace app\engine;
 
 class Db
 {
-    private $config = [
-        "host" => "localhost:",
-        "port" => "3307",
-        "login" => "phpHw",
-        "pass" => "12345",
-        "driver" => "mysql",
-        "charset" => "utf8",
-        "dbname" => "hwphp"
-    ];
-    private static $instance = null;
-    private function __construct()
+    private $config = [];
+
+    public function __construct($driver = null, $host = null, $dbname = null, $port = null, $login = null, $pass = null, $charset = 'utf8')
     {
-    }
-    public static function getInstance()
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static();
-        }
-        return static::$instance;
+        $this->config['driver'] = $driver;
+        $this->config['host'] = $host;
+        $this->config['port'] = $port;
+        $this->config['dbname'] = $dbname;
+        $this->config['login'] = $login;
+        $this->config['pass'] = $pass;
+        $this->config['charset'] = $charset;
     }
 
     protected $connected = null;
@@ -32,6 +24,7 @@ class Db
         if (is_null($this->connected)) {
             $this->connected = new \PDO($this->getDSNstr(), $this->config['login'], $this->config['pass']);
             $this->connected->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            
         }
         return $this->connected;
     }
@@ -60,9 +53,9 @@ class Db
         return  $this->query($sql, $params)->fetch();
     }
 
-    public function queryAll($sql,$params=[])
+    public function queryAll($sql, $params = [])
     {
-        return $this->query($sql,$params)->fetchAll();
+        return $this->query($sql, $params)->fetchAll();
     }
 
     public function execute($sql, $params)
@@ -76,7 +69,8 @@ class Db
         return $this->connected->lastInsertId();
     }
 
-    public function queryAllLimit($sql, $params) {
+    public function queryAllLimit($sql, $params)
+    {
         $sth = $this->connected()->prepare($sql);
         $sth->bindValue(1, $params, \PDO::PARAM_INT);
         $sth->execute();

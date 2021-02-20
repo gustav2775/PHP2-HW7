@@ -2,9 +2,8 @@
 
 namespace app\controllers;
 
-use app\interfaces\{ILogin, IRender};
-use app\engine\Session;
-use app\model\repositories\{UsersRepository,BasketRepository};
+use app\interfaces\IRender;
+use app\engine\App;
 
 class Controller
 {
@@ -18,17 +17,17 @@ class Controller
 
     public function renderLayouts($template, $params = [])
     {
-        $id = (new Session)->getSession()['id'];
+        $id = App::call()->session->getSession()['id'];
         if(isset($id)){
-            $params['is_admin'] = (new UsersRepository)->getOne($id)->is_admin();
+            $params['is_admin'] = App::Call()->usersRepository->getOne($id)->is_admin();
         }
-        return $this->render->renderVeiws(LAYOUTS . $this->defaultLayouts, [
+        return $this->render->renderVeiws("layouts/" . $this->defaultLayouts, [
             'login' => $this->render->renderVeiws('login', [
-                'login' =>(new UsersRepository)->getLogin(),
-                'auth' => (new UsersRepository)->auth(),
+                'login' =>App::Call()->usersRepository->getLogin(),
+                'auth' => App::Call()->usersRepository->auth(),
             ]),
             'menu' => $this->render->renderVeiws('menu', [
-                'count' => (new BasketRepository)->getCount()['count'],
+                'count' => App::call()->basketRepository->getCount()['count'],
             ]),
             'content' => $this->render->renderVeiws($template, $params)
         ]);

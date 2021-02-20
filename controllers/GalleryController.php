@@ -2,15 +2,14 @@
 
 namespace app\controllers;
 
-use app\model\repositories\GalleryRepository;
-use app\model\entities\Gallery;
-use app\engine\Request;
+
+use app\engine\{App};
 
 class GalleryController extends Controller
 {
     public function actionGallery()
     {
-        $gallery = (new GalleryRepository)->getAll();
+        $gallery = App::call()->galleryRepository->getAll();
 
         echo $this->renderLayouts("gallery", [
             "gallery" => $gallery
@@ -19,9 +18,9 @@ class GalleryController extends Controller
 
     public function actionGalleryItem()
     {
-        $id = (new Request())->getParams()['id'];
+        $id = App::call()->request->getParams()['id'];
 
-        $gallery = (new GalleryRepository)->getOne($id);
+        $gallery = App::call()->galleryRepositor->getOne($id);
 
         echo $this->renderLayouts("galleryItem", [
             "itemGallery" => $gallery,

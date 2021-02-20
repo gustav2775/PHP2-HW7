@@ -2,16 +2,14 @@
 
 namespace app\controllers;
 
-use app\model\repositories\BasketRepository;
-use app\model\entities\Basket;
-use app\engine\{Request};
+use app\engine\App;
 
 class BasketController extends Controller
 {
     public function actionBasket()
     {
-        $basket = (new BasketRepository)->getBasket();
-        $sum_order = (new BasketRepository)->sum_order($basket);
+        $basket = App::call()->basketRepository->getBasket();
+        $sum_order = App::call()->basketRepository->sum_order($basket);
 
         echo $this->renderLayouts("basket", [
             "basket" => $basket,
@@ -21,25 +19,22 @@ class BasketController extends Controller
 
     public function actionBuy()
     {
-        $id = (new Request())->getParams()['id'];
-        $good = (new BasketRepository)->getOne($id);
+        $id = App::call()->request->getParams()['id'];
+        $good = App::call()->basketRepository->getOne($id);
         $good->basketUp();
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
-
 
     public function actionDelete()
     {
-        $requset = (new Request())->getParams();
+        $requset = App::call()->request->getParams();
         $id = $requset['id'];
-        $basket = (new BasketRepository())->getOne($id);
+        $basket = App::call()->basketRepository->getOneProd($id);
 
         if ((int)$basket->quantity <= 1) {
             $basket->delete();
         } else {
             $basket->basketRemove();
         }
-
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
+    
 }

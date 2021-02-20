@@ -3,15 +3,14 @@
 namespace app\controllers;
 
 use app\model\entities\{Catalog, Basket, Feedback};
-use app\model\repositories\{CatalogRepository, FeedbackRepository, BasketRepository};
-use app\engine\Request;
+use app\engine\App;
 
 class CatalogController extends Controller
 {
     public function actionCatalog()
     {
-        $page = (new Request())->getParams()['page'] ?: 10;
-        $catalog = (new CatalogRepository)->getAllLimit($page);
+        $page = App::call()->request->getParams()['page'] ?: 10;
+        $catalog = App::call()->catalogRepository->getAllLimit($page);
 
         echo $this->renderLayouts("catalog", [
             "catalog" => $catalog,
@@ -21,27 +20,17 @@ class CatalogController extends Controller
 
     public function actionProduct()
     {
-        $id = (new Request())->getParams()['id'];
-        $catalog = (new CatalogRepository)->getOneArray($id);
-        $feedback = (new FeedbackRepository)->getAllWhere($id);
+        $id = App::call()->request->getParams()['id'];
+        $product = App::call()->catalogRepository->getProduct($id);
 
         echo $this->renderLayouts("product", [
-            "item" => $catalog,
-            "feedback" => $feedback
+            "item" => $product
         ]);
     }
 
-    // public function actionInsert()
-    // {
-    //     $params = (new Request())->getParams();
-    //     $catalog = new Catalog($params['name_product'],$params['price'],$params['description']);
-    //     (new CatalogRepository)->insert($catalog);
-    //     header('Location: ' . $_SERVER['HTTP_REFERER']);
-    // }
-
     public function actionSave()
     {
-        $paramsRequest = (new Request())->getParams();
+        $paramsRequest = App::call()->request->getParams();
         $id = $paramsRequest['id'];
 
         if (isset($id)) {
@@ -50,26 +39,77 @@ class CatalogController extends Controller
             foreach ($paramsKey as $key) {
                 $catalog->$key = $paramsRequest[$key];
             }
-            (new CatalogRepository)->update($catalog);
+            App::call()->catalogRepository->update($catalog);
         } else {
             $catalog = new Catalog($paramsRequest['name_product'], $paramsRequest['price'], $paramsRequest['description']);
-            (new CatalogRepository)->insert($catalog);
+            App::call()->catalogRepository->insert($catalog);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     public function actionBuy()
     {
-        $requset = (new Request())->getParams();
+        $requset = App::call()->request->getParams();
         $id = $requset['id'];
+        $good = App::call()->basketRepository->getOneProd($id);
 
-        $good = (new BasketRepository)->getOneProd($id);
         if ($good) {
             $good->basketUp();
         } else {
             $basket = new Basket(session_id(), $id, 1);
-            (new BasketRepository)->insert($basket);
+            App::call()->basketRepository->insert($basket);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
+
+    public function actionDelete()
+    {
+        $requset = App::call()->request->getParams();
+        $id = $requset['id'];
+        $basket = App::call()->catalogRepository->getOne($id);
+        $basket->delete();
+    }
+
+    public function actionEdit()
+    {
+        $paramsRequest =  App::call()->request->getParams();
+        $id =  $paramsRequest['id'];
+        $idfeed = $paramsRequest['idfeed'];
+        $product = App::call()->catalogRepository->getProduct($id);
+
+        $feedbackUpdate =  App::call()->feedbackRepository->getOne($idfeed, 'idfeed');
+        var_dump($id);
+        echo $this->renderLayouts("product", [
+            "item" => $product,
+            "feedbackUpdate" => $feedbackUpdate
+        ]);
+    }
+
+    public function actionSavefeed()
+    {
+        $paramsRequest =  App::call()->request->getParams();
+        $id = $paramsRequest['id'];
+        $date = date(' j F Y h:i:s A');
+
+        $feedback = App::call()->feedbackRepository->getOne($paramsRequest['idfeed'], 'idfeed');
+
+        if ($feedback) {
+            $paramsKey = array_keys($paramsRequest);
+
+            $updateFeedObj = new Feedback();
+
+            foreach ($paramsKey as $key) {
+                $updateFeedObj->$key = $paramsRequest[$key];
+            }
+
+            $updateFeedObj->id = $this->id;
+            App::call()->feedbackRepository->updateFeed($updateFeedObj);
+
+        } else {
+
+            $feedback = new Feedback($this->id, $paramsRequest['name'], $paramsRequest['feedback'], $date);
+            App::call()->feedbackRepository->insert($feedback);
+        }
+        header("Location:/catalog/product/?id={$id}");
     }
 }

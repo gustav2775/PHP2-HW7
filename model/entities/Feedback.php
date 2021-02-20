@@ -10,17 +10,32 @@ class Feedback  extends Model
     protected $name;
     protected $feedback;
     protected $datefeedback;
-    protected $idmode;
+    protected $idfeed;
 
     protected $prop = [
+        'id' => false,
         'name' => false,
         'feedback' => false,
         'datefeedback' => false
     ];
 
-    public function __construct($name = null, $feedback = null)
+    public function __construct($id = null, $name = null, $feedback = null, $datefeedback = null)
     {
-        $this->name = $name;
-        $this->feedback = $feedback;
+        if (!is_null($id)) {
+            $this->id = $id;
+            $this->prop['id'] = true;
+        }
+        if (!is_null($name)) {
+            $this->name = $name;
+            $this->prop['name'] = true;
+        }
+        if (!is_null($feedback)) {
+            $this->feedback = $feedback;
+            $this->prop['feedback'] = true;
+        }
+        if (!is_null($datefeedback)) {
+            $this->datefeedback = $datefeedback;
+            $this->prop['datefeedback'] = true;
+        }
     }
 }

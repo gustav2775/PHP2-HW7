@@ -18,7 +18,7 @@
                         <div class="priceBasket"><?= $product["price"] ?></div><br>
                         <div class="deleteBasket">
                             <button data-id='<?= $product["id"] ?>' data-method='basket' data-action='buy' class=buy> +</Button>
-                            <button data-id='<?= $product["id"] ?>' data-action='delete' data-method='basket' class=remove> - </Button>
+                            <button data-id='<?= $product["id_product"] ?>' data-action='delete' data-method='basket' class=remove> - </Button>
                         </div>
                     </div>
                 <?php endforeach ?>

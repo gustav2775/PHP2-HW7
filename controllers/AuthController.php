@@ -3,23 +3,21 @@
 namespace app\controllers;
 
 use app\interfaces\ILogin;
-use app\model\repositories\UsersRepository;
-use app\engine\{Request};
+use app\engine\App;
 
 class AuthController  implements ILogin
 {
     public function actionLogin()
     {
         
-        $requestParams = (new Request())->getParams();
+        $requestParams = App::call()->request->getParams();
         $pass = $requestParams['pass'];
-
-        $user =(new UsersRepository)->getOne($requestParams['login'],'login');
+        
+        $user =App::call()->usersRepository->getOne($requestParams['login'],'login');
         if ($user) {
             if (password_verify( $pass, $user->pass)) {
                 $_SESSION["login"] = $user->login;
-                $_SESSION['id'] = $user->id;
-                
+                $_SESSION['id'] = $user->id; 
                 if ($requestParams['save']) {
                     $hash = uniqid(rand(), true);
                     setcookie('hash', $hash, time() + 3600, '/');

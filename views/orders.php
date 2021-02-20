@@ -21,7 +21,7 @@
                     <p> <?= $order['id_user'] ?></p>
                     <p> <?= $order['sum_order'] ?></p>
                     <?php if ($is_admin) : ?>
-                        <form action="/orders/status/?id=<?=$order['id']?>" method="post" class="status">
+                        <form action="/orders/status/?id=<?= $order['id'] ?>" method="post" class="status">
                             <input hidden type="text" name="idorder" value="<?= $order['id'] ?>">
                             <select name="status" id="status">
                                 <option hidden value="processing"><?= $order['status'] ?></option>
@@ -32,20 +32,25 @@
                             </select>
                             <input type="submit" value="Изменить">
                         </form>
-                        <form action="" method="post" class="deleteOrder">
+                        <form action="/orders/delete/?id=<?= $order['id'] ?>" method="post" class="deleteOrder">
                             <input hidden type="text" name="action" value="delete">
                             <input hidden type="text" name="idorder" value="<?= $order['id'] ?>">
                             <input type="submit" value="X">
                         </form>
                     <?php else : ?>
-                        <form action="" method="post" class="deleteOrder">
-                            <input hidden type="text" name="Pay" value="<?= $order['sumOrder'] ?>">
+                        <?php if (is_null($order['status'])) : ?>
+                            <form action="/orders/pay/?id=<?= $order['id'] ?>" method="post" class="deleteOrder">
+                                <input hidden type="text" name="Pay" value="<?= $order['sumOrder'] ?>">
+                                <input hidden type="text" name="status" value="Оплачено">
+                                <input hidden type="text" name="idorder" value="<?= $order['id'] ?>">
+                                <input type="submit" value="Оплатить">
+                            </form>
+                        <?php else : ?>
+                            <p> <?= $order['status'] ?> </p>
+                        <?php endif ?>
+                        <form action="/orders/checkDelete/?id=<?= $order['id'] ?>" method="post" class="deleteOrder">
                             <input hidden type="text" name="idorder" value="<?= $order['id'] ?>">
-                            <input type="submit" value="Оплатить">
-                        </form>
-                        <form action="" method="post" class="deleteOrder">
-                            <input hidden type="text" name="idorder" value="<?= $order['id'] ?>">
-                            <input type="checkbox" name="remove" value="X">
+                            <input type="checkbox" name="status" value="Удалить">
                             <input type="submit" value="Подтвердить">
                         </form>
                     <?php endif ?>

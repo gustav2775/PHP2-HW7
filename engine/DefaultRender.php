@@ -3,6 +3,7 @@
 namespace app\engine ;
 
 use app\interfaces\IRender;
+use app\engine\App;
 
 class DefaultRender implements IRender
 
@@ -11,7 +12,7 @@ class DefaultRender implements IRender
     {
         ob_start();
         extract($params);
-        $templatePath = TEMPLATE . $template . '.php';
+        $templatePath = dirname(__DIR__) . "/views/". $template . '.php';
         if (file_exists($templatePath)) {
             include $templatePath;
         }

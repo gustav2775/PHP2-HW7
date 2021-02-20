@@ -12,15 +12,22 @@ class Session
         $this->Session();
     }
 
+    // public function sessionStart()
+    // {
+    //     session_start();
+    // }
+
     private function Session()
     {
         $this->session = $_SESSION;
         $this->cookie = $_COOKIE;
     }
+
     public function getSession()
     {
         return $this->session;
     }
+    
     public function getCookie()
     {
         return $this->cookie;

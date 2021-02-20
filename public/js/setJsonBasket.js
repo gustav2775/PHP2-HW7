@@ -10,6 +10,7 @@ function setJson(button) {
     let id = button.getAttribute('data-id');
     let method = button.getAttribute('data-method');
     let action = button.getAttribute('data-action');
+    console.log(method);
     fetch(`/${method}/${action}/`, {
             method: 'POST',
             headers: {
